@@ -10,6 +10,12 @@ l_j  l_j |  | l_j  l_j| l___ Y    _]
 
 from preloads import *
 
+'''
+ _       __    _   _     
+| |\/|  / /\  | | | |\ | 
+|_|  | /_/--\ |_| |_| \|
+'''
+
 def main():
     while True:
         url = input('Insert YouTube video: ')
@@ -20,6 +26,8 @@ def main():
 
         else:
             break
+        
+    vid_creator_mongo(url)       
 
 if __name__ == '__main__':
     main()

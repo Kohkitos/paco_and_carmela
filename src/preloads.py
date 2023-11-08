@@ -16,6 +16,14 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 
 '''
+ ___  _____  _     ____  ___            ___   _    
+/ / \  | |  | |_| | |_  | |_)      __  | |_) \ \_/ 
+\_\_/  |_|  |_| | |_|__ |_| \     (_() |_|    |_|  
+'''
+from tools import *
+
+
+'''
  ___   ___   ____  _     ___    __    ___   __  
 | |_) | |_) | |_  | |   / / \  / /\  | | \ ( (` 
 |_|   |_| \ |_|__ |_|__ \_\_/ /_/--\ |_|_/ _)_) 
