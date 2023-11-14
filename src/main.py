@@ -27,7 +27,17 @@ def main():
         else:
             break
         
-    vid_creator_mongo(url)       
+    if  vid_creator_pipeline(url):
+        return 1
+    
+    '''
+    while True:
+        try:
+            extraer_comentarios(url)
+            transcribir_audio(url)
+        except:
+            break
+    '''
 
 if __name__ == '__main__':
     main()

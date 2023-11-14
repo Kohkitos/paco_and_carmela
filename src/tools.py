@@ -15,7 +15,7 @@ from preloads import *
 _)_) |_|__ |_|__ |_|__ |_| \| |_| \_\_/ |_|  |
 '''
 
-def vid_creator_mongo(url):
+def vid_creator_pipeline(url):
     '''
     TODO
     '''
@@ -38,6 +38,7 @@ def vid_creator_mongo(url):
     # we don't need the driver anymore
     driver.quit()
 
+    # creating the jsons (logging.config will be useful here)
     vid_son = {'_id': url[32:46],
                 'title': title,
                 'url': url,
@@ -58,6 +59,7 @@ def vid_creator_mongo(url):
                    'last_update': datetime.now()   
                     }
 
+    # and upload it to the database
     mongo_vid_creator(vid_son, creator_son)
 
     return 0
@@ -82,14 +84,30 @@ def reject_yt_cookies(driver):
     except:
         pass
 
-    
+
+'''
+ ___   _   ___   ____  _     _   _      ____ 
+| |_) | | | |_) | |_  | |   | | | |\ | | |_  
+|_|   |_| |_|   |_|__ |_|__ |_| |_| \| |_|__ 
+'''  
+
+def comments_pipeline(url):
+    '''
+    TODO
+    '''
+    chat = ChatDownloader().get_chat(url,
+                                    retry_timeout = -1, # -1 makes the downloader to retreive a message as soon as is published
+                                    timeout = 120)       # 120 secs of scrapping
+
+     for message in chat:                        
+        add_message(message)
 '''
  _      ___   _      __    ___   ___   ___  
 | |\/| / / \ | |\ | / /`_ / / \ | | \ | |_) 
 |_|  | \_\_/ |_| \| \_\_/ \_\_/ |_|_/ |_|_) 
 '''
 
-def mongo_upload(video, creator):
+def mongo_vid_creator(video, creator):
     '''
     TODO
     '''   
@@ -102,3 +120,50 @@ def mongo_upload(video, creator):
                     {"_id": _id},
                     {"$set": {"last_update": datetime.datetime.now()}}
                     )
+
+def mongo_message(message):
+    '''
+    TODO
+    '''
+
+    mess = message['message']
+    mess_id = message['message_id']
+    sent = ANALYZER.predict(message).__dict__['output']
+    # common
+    ts = samp['timestamp']
+    # author
+    name = samp['author']['name']
+    com_id = samp['author']['id']
+
+    mess_son = {
+                '_id': mess_id,
+                'message': mess,
+                'date': datetime.datetime.now(),
+                'timestamp': ts,
+                'commentator_id': com_id,
+                'video_title': vid_title,
+                'platform': platform,
+                'sentiment_analysis': sent,
+                'hate_speech_analysis': hate
+                }
+
+    auth_son = {
+                '_id': com_id,
+                'name': name,
+                'platform': platform,
+                'last_update': datetime.datetime.now()
+                }
+    
+    # just in case a commentor is a recurrent user, we will update the last_update
+    try:
+        db.user.insert_one(auth_son)
+    except:
+        db.user.update_one(
+                {"_id": auth_son['_id']},
+                {"$set": {"last_update": datetime.datetime.now()}}
+                )
+    # sometimes, a message can be recorded twice, this will prevent any error
+    try:
+        db.message.insert_one(mess_son)
+    except:
+        pass
