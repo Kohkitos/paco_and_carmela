@@ -149,7 +149,7 @@ def mongo_message(message, vid_id):
                 'message': mess,
                 'date': datetime.now(),
                 'unix': ts,
-                'timestam': '',
+                'timestamp': '',
                 'commentator_id': com_id,
                 'video_id': vid_id,
                 'sentiment_analysis': sent

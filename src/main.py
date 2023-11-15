@@ -20,7 +20,7 @@ def main():
     while True:
         url = input('Insert YouTube video: ')
 
-        if 'youtube.com/watch?v=' not in url:
+        if 'youtube.com' not in url:
             print ('Only youtube videos.')
             continue
 
@@ -32,6 +32,8 @@ def main():
     print('Load Finished')
     while True:
         try:
+
+
             comments_pipeline(url)
             # transcribir_audio(url)
         except:
