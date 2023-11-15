@@ -138,13 +138,11 @@ def mongo_message(message, vid_id):
     mess = message['message']
     mess_id = message['message_id']
     sent = ANALYZER.predict(mess).__dict__['output']
-    print('here')
     # common
     ts = message['timestamp']
     # author
     name = message['author']['name']
     com_id = message['author']['id']
-    print('there')
 
     mess_son = {
                 '_id': mess_id,
@@ -164,7 +162,6 @@ def mongo_message(message, vid_id):
                 }
     
     # just in case a commentor is a recurrent user, we will update the last_update
-    print('over here')
     try:
         db.user.insert_one(auth_son)
     except:

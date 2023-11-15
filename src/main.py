@@ -32,7 +32,6 @@ def main():
     print('Load Finished')
     while True:
         try:
-            print('Getting comments...')
             comments_pipeline(url)
             # transcribir_audio(url)
         except:
