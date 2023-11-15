@@ -112,15 +112,18 @@ def comments_pipeline(url):
 def mongo_vid_creator(video, creator):
     '''
     TODO
-    '''   
-    db.video.insert_one(video)
+    '''
+    try:
+        db.video.insert_one(video)
+    except:
+        pass
     
     try:
         db.creator.insert_one(creator)
     except:
         db.creator.update_one(
-                    {"_id": _id},
-                    {"$set": {"last_update": datetime.datetime.now()}}
+                    {"_id": creator['_id']},
+                    {"$set": {"last_update": datetime.now()}}
                     )
 
 def mongo_message(message, vid_id):
