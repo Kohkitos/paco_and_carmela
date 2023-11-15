@@ -8,7 +8,7 @@ l_j  l_j |  | l_j  l_j| l___ Y    _]
   l__j  |____j  l__j  l_____jl_____j
 '''
 
-from preloads import *
+from tools import vid_creator_pipeline, comments_pipeline
 
 '''
  _       __    _   _     
@@ -29,15 +29,14 @@ def main():
         
     if  vid_creator_pipeline(url):
         return 1
-    
-    '''
+    print('Load Finished')
     while True:
         try:
-            extraer_comentarios(url)
-            transcribir_audio(url)
+            print('Getting comments...')
+            comments_pipeline(url)
+            # transcribir_audio(url)
         except:
             break
-    '''
 
 if __name__ == '__main__':
     main()

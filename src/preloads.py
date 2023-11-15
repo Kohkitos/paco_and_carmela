@@ -15,12 +15,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 
-'''
- ___  _____  _     ____  ___            ___   _    
-/ / \  | |  | |_| | |_  | |_)      __  | |_) \ \_/ 
-\_\_/  |_|  |_| | |_|__ |_| \     (_() |_|    |_|  
-'''
-from tools import *
+from pysentimiento import create_analyzer
 
 
 '''
@@ -40,4 +35,7 @@ OPTIONS.add_argument('--incognito')
 
 # mongodb
 cursor = MongoClient(STR_CONN)
-db = cursor.live_chats
+db = cursor.test
+
+# nlp pipelines
+ANALYZER = create_analyzer(task="sentiment", lang="es")
