@@ -103,6 +103,11 @@ def comments_pipeline(url):
             mongo_message(message, url[32:46])
     except:
         pass
+
+    db.video.update_one(
+            {"_id": url[32:46]},
+            {"$set": {"recording.last": datetime.now()}}
+            )
 '''
  _      ___   _      __    ___   ___   ___  
 | |\/| / / \ | |\ | / /`_ / / \ | | \ | |_) 
