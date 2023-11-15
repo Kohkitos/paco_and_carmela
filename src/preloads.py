@@ -35,7 +35,7 @@ OPTIONS.add_argument('--incognito')
 
 # mongodb
 cursor = MongoClient(STR_CONN)
-db = cursor.test
+db = cursor.final_project
 
 # nlp pipelines
 ANALYZER = create_analyzer(task="sentiment", lang="es")
