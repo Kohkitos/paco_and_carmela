@@ -98,8 +98,11 @@ def comments_pipeline(url):
     chat = ChatDownloader().get_chat(url,
                                     retry_timeout = -1, # -1 makes the downloader to retreive a message as soon as is published
                                     timeout = 60)       # 120 secs of scrapping
-    for message in chat:                        
-        mongo_message(message, url[32:46])
+    try:
+        for message in chat:                        
+            mongo_message(message, url[32:46])
+    except:
+        pass
 '''
  _      ___   _      __    ___   ___   ___  
 | |\/| / / \ | |\ | / /`_ / / \ | | \ | |_) 
