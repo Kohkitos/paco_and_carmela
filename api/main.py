@@ -61,8 +61,12 @@ def messages_by_day(dia: int):
 
 # -------- REVISAR PORQUE NO FURULA POR ALGÚN MOTIVO LLORARÉ
 
-@app.get("/messages_by_day_and_sent/{dia}/{sent}")
-def messages_by_day_and_sent(dia: int, sent: str):
+@app.get("/messages_by_day_and_sent/{param}")
+def messages_by_day_and_sent(param):
+	param = param.split('-')
+	
+	dia = int(param[0])
+	sent = param[1]
 
 	start_date = datetime.now().replace(day=dia, hour=0, minute=0, second=0, microsecond=0)
 	end_date = start_date.replace(day=(dia + 1))
@@ -95,3 +99,4 @@ def count_total_users():
 def count_total_messages():
 	elements = list(db.message.find())
 	return {"Video count": len(elements)}
+
