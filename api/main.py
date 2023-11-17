@@ -18,30 +18,22 @@ def index():
 
 @app.get("/video")
 def video():
-	elements = []
-	for e in db.video.find():
-		elements.append(e)
+	elements = list(db.video.find())
 	return elements
 
 @app.get("/creator")
 def creator():
-	elements = []
-	for e in db.creator.find():
-		elements.append(e)
+	elements = list(db.creator.find())
 	return elements
 
 @app.get("/users")
 def users():
-	elements = []
-	for e in db.user.find({}, {'_id': 1, 'last_update': 1}):
-		elements.append(e)
+	elements = list(db.user.find({}, {'_id': 1, 'last_update': 1}))
 	return elements
 
 @app.get("/messages")
 def messages():
-	elements = []
-	for e in db.message.find():
-		elements.append(e)
+	elements = list(db.message.find())
 	return elements
 
 @app.get("/messages/{sent}")
@@ -53,10 +45,9 @@ def messages(sent):
 	elif sent == 'negative':
 		sent = 'NEG'
 	else:
-		return {'Error': 'Only "positive", "negative" or "neutral" for sentiment analysis.'}
-	elements = []
-	for e in db.message.find({'sentiment_analysis': sent}, {}):
-		elements.append(e)
+		raise HTTPException(status_code=400, detail='Only "positive", "negative" or "neutral" for sentiment analysis.')
+
+	elements = list(db.message.find({'sentiment_analysis': sent}, {}))
 	return elements
 
 @app.get("/messages_by_day/{dia}")
@@ -64,31 +55,43 @@ def messages_by_day(dia: int):
 	start_date = datetime.now().replace(day=dia, hour=0, minute=0, second=0, microsecond=0)
 	end_date = start_date.replace(day=(dia + 1))
 
-	elements = []
-	for e in db.message.find({"date": {"$gte": start_date, "$lt": end_date}}, {}):
-		elements.append(e)
+	elements = list(db.message.find({"date": {"$gte": start_date, "$lt": end_date}}, {}))
+
+	return elements
+
+# -------- REVISAR PORQUE NO FURULA POR ALGÚN MOTIVO LLORARÉ
+
+@app.get("/messages_by_day_and_sent/{dia}/{sent}")
+def messages_by_day_and_sent(dia: int, sent: str):
+
+	start_date = datetime.now().replace(day=dia, hour=0, minute=0, second=0, microsecond=0)
+	end_date = start_date.replace(day=(dia + 1))
+
+	if sent == 'positive':
+		sent = 'POS'
+	elif sent == 'neutral':
+		sent = 'NEU'
+	elif sent == 'negative':
+		sent = 'NEG'
+	else:
+		raise HTTPException(status_code=400, detail='Only "positive", "negative" or "neutral" for sentiment analysis.')
+
+	elements = list(db.message.find({"date": {"$gte": start_date, "$lt": end_date}, 'sentiment_analysis': sent}, {}))
 	return elements
 
 # --- GET COUNTS ---
 
 @app.get("/video_count")
 def count_total_vids():
-	i = 0
-	for e in db.video.find():
-		i += 1
-	return {"Video Count": i}
+	elements = list(db.video.find())
+	return {"Video Count": len(elements)}
 
 @app.get("/user_count")
 def count_total_users():
-	i = 0
-	for e in db.user.find():
-		i += 1
-	return {"User count": i}
+	elements = list(db.user.find())
+	return {"User count": len(elements)}
 
 @app.get("/message_count")
 def count_total_messages():
-	i = 0
-	for e in db.message.find():
-		i += 1
-	return {"Video count": i}
-
+	elements = list(db.message.find())
+	return {"Video count": len(elements)}
