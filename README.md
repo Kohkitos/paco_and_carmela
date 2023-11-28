@@ -16,3 +16,41 @@ The quality of a README description often differentiates a good project from a b
 
 This comprehensive description aims to offer a clear overview of the project's purpose, its technical underpinnings, and the roadmap ahead. 📈✨
 
+### How to Install and Run the Project 🛠️
+
+To get started with this project and set up the development environment, follow these steps:
+
+#### 1. Prerequisites
+
+Ensure you have the following installed:
+
+- **Python**: Check that Python is installed on your system. You can download it from [Python's official website](https://www.python.org/downloads/).
+- **MongoDB**: Install MongoDB to set up the database. Visit [MongoDB's website](https://www.mongodb.com/) for installation instructions.
+- **ChatDownloader**: Use ChatDownloader to extract comments from YouTube. You can find installation details [here](https://github.com/xenova/chat-downloader).
+- **NLTK**: For sentiment analysis, install NLTK. You can install it using pip:
+
+    ```bash
+    pip install nltk
+    ```
+
+#### 2. Clone the Repository
+
+```bash
+git clone https://github.com/Kohkitos/live_chat_etl.git
+```
+
+#### 3. Install dependencies
+
+```bash
+pip install pymongo
+```
+
+#### 4. Set up your mongo
+
+-- TBD -- 
+
+#### 5. Run the project
+
+```bash
+python main.py
+```
