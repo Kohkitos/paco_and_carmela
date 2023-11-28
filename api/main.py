@@ -100,3 +100,23 @@ def count_total_messages():
 	elements = list(db.message.find())
 	return {"Video count": len(elements)}
 
+# --- try this later ---
+
+# param == f"{sent}-{stime}-{etime}
+def user(param):
+	params
+
+def message(param):
+	params = param.split(-)
+	# sent
+	if len(params[0]) != 3:
+		params[0] = 'POSNEGNEU'
+
+	messages = list(db.message.find({'sentiment_analysis': {'$in': params[0]},
+					 'timestamp': { '$gt':  params[1], '$lt': params[2]}})
+		       )
+	result ={
+		'count': len(messages),
+		'messages': messages
+		}
+	return result
