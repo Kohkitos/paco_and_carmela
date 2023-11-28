@@ -12,7 +12,7 @@ app = FastAPI()
 
 @app.get("/")
 def index():
-    return {"Hello": "there"}
+    return {"Usage": "todo"}
 
 # --- GET DICTIOS ---
 
@@ -102,15 +102,25 @@ def count_total_messages():
 
 # --- try this later ---
 
-# param == f"{sent}-{stime}-{etime}
+# param == f"{sent}-{stime}-{etime} -- for everything: "POSNEGNEU-0-1000"
+
 def user(param):
-	params
+	params = param.split(-)
+
+	users = list(db.user.find())
+	messages = list(db.message.find({'sentiment_analysis': {'$in': params[0]},
+				 'timestamp': { '$gt':  params[1], '$lt': params[2]}})
+	# count = 0
+	# for user in users:
+	# 	for message in messages:
+	# 		if user.id == message.user_id:
+	# 			count += 1
+	# 			break
+	# return {"User count": count}
+
 
 def message(param):
 	params = param.split(-)
-	# sent
-	if len(params[0]) != 3:
-		params[0] = 'POSNEGNEU'
 
 	messages = list(db.message.find({'sentiment_analysis': {'$in': params[0]},
 					 'timestamp': { '$gt':  params[1], '$lt': params[2]}})
