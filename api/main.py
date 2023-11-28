@@ -102,14 +102,24 @@ def count_total_messages():
 
 # --- try this later ---
 
-# param == f"{sent}-{stime}-{etime} -- for everything: "POSNEGNEU-0-1000"
+# param == f"{sent}-{day}-{stime}-{etime} -- for everything: "POSNEGNEU-0-0-1000"
 
 def user(param):
 	params = param.split(-)
 
 	users = list(db.user.find())
-	messages = list(db.message.find({'sentiment_analysis': {'$in': params[0]},
-				 'timestamp': { '$gt':  params[1], '$lt': params[2]}})
+
+	if param[1] == '0':
+		messages = list(db.message.find({'sentiment_analysis': {'$in': params[0]},
+						 'timestamp': { '$gt':  params[2], '$lt': params[3]}})
+			       )
+	else:
+		date = datetime.now().replace(day=int(param[1], hour=0, minute=0, second=0, microsecond=0)
+		messages = list(db.message.find({'sentiment_analysis': {'$in': params[0]},
+						'timestamp': { '$gt':  params[2], '$lt': params[3]},
+						'date': date})
+	       )
+
 	# count = 0
 	# for user in users:
 	# 	for message in messages:
@@ -118,13 +128,38 @@ def user(param):
 	# 			break
 	# return {"User count": count}
 
+	# documents_to_update = collection.find({"timestam": {"$exists": True}})
+	# updates = []
+	
+	# for doc in documents_to_update:
+	#     new_doc = doc.copy()
+	#     new_doc["timestamp"] = doc["timestam"]
+	#     del new_doc["timestam"]
+	#     updates.append(UpdateOne({"_id": doc["_id"]}, {"$set": new_doc}))
+	
+	# # Ejecutar las actualizaciones en lotes
+	# if updates:
+	#     result = collection.bulk_write(updates)
+	#     print(f"Se han actualizado {result.modified_count} documentos")
+	# else:
+	#     print("No se encontraron documentos para actualizar")
+
 
 def message(param):
 	params = param.split(-)
 
-	messages = list(db.message.find({'sentiment_analysis': {'$in': params[0]},
-					 'timestamp': { '$gt':  params[1], '$lt': params[2]}})
-		       )
+	if param[1] == '0':
+		messages = list(db.message.find({'sentiment_analysis': {'$in': params[0]},
+						 'timestamp': { '$gt':  params[2], '$lt': params[3]}})
+			       )
+	else:
+		date = datetime.now().replace(day=int(param[1], hour=0, minute=0, second=0, microsecond=0)
+		messages = list(db.message.find({'sentiment_analysis': {'$in': params[0]},
+						'timestamp': { '$gt':  params[2], '$lt': params[3]},
+						'date': date})
+	       )
+
+		
 	result ={
 		'count': len(messages),
 		'messages': messages
