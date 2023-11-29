@@ -12,7 +12,7 @@ app = FastAPI()
 
 @app.get("/")
 def root():
-    return {"Usage": "todo"}
+    return {"Usage": "/message_{param}"}
 
 # param == f"{sent}-{day}-{stime}-{etime} -- for everything: "POSNEGNEU-0-0-1000"
 
@@ -40,14 +40,19 @@ def message(param):
 			user_count:			int,
 			messages:			json}
 	"""
+
+	# split params into parts and split sent into a list
 	params = param.split('-')
 	parts = split_3(params[0])
 
+	# if both days are requested
 	if params[1] == '0':
 		messages = list(db.message.find({'sentiment_analysis': {'$in': parts},
 						 'timestamp': { '$gte':  int(params[2]), '$lte': int(params[3])}
 						 })
 			       )
+		
+	# if only one day is requested
 	else:
 		date = datetime.now().replace(day=int(params[1]), hour=0, minute=0, second=0, microsecond=0)
 		end_date = date.replace(day = int(param[1] + 1))
@@ -57,9 +62,16 @@ def message(param):
 						"date": {"$gte": date, "$lt": end_date}})
 	       )
 
-		
+	# get the user count	
+	users = []
+	for message in messages:
+		if message['commentator_id'] in users:
+			continue
+		users.append(message['commentator_id'])
+
 	result ={
-		'message_count': len(messages),
+		'count': len(messages),
+		'users': len(users),
 		'messages': messages
 		}
 	return result
