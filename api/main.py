@@ -14,52 +14,29 @@ app = FastAPI()
 def root():
     return {"Usage": "todo"}
 
-# --- try this later ---
-
 # param == f"{sent}-{day}-{stime}-{etime} -- for everything: "POSNEGNEU-0-0-1000"
-
-def user(param):
-	params = param.split('-')
-
-	users = list(db.user.find())
-
-	if param[1] == '0':
-		messages = list(db.message.find({'sentiment_analysis': {'$in': params[0]},
-						 'timestamp': { '$gt':  params[2], '$lt': params[3]}})
-			       )
-	else:
-		date = datetime.now().replace(day=int(param[1], hour=0, minute=0, second=0, microsecond=0)
-		messages = list(db.message.find({'sentiment_analysis': {'$in': params[0]},
-						'timestamp': { '$gt':  params[2], '$lt': params[3]},
-						'date': date})
-	       )
-
-	# count = 0
-	# for user in users:
-	# 	for message in messages:
-	# 		if user.id == message.user_id:
-	# 			count += 1
-	# 			break
-	# return {"User count": count}
-
-	# documents_to_update = collection.find({"timestam": {"$exists": True}})
-	# updates = []
-	
-	# for doc in documents_to_update:
-	#     new_doc = doc.copy()
-	#     new_doc["timestamp"] = doc["timestam"]
-	#     del new_doc["timestam"]
-	#     updates.append(UpdateOne({"_id": doc["_id"]}, {"$set": new_doc}))
-	
-	# # Ejecutar las actualizaciones en lotes
-	# if updates:
-	#     result = collection.bulk_write(updates)
-	#     print(f"Se han actualizado {result.modified_count} documentos")
-	# else:
-	#     print("No se encontraron documentos para actualizar")
 
 @app.get("/message_{param}")
 def message(param):
+	"""This is a function that returns a JSON serching for the values specified in the param.
+
+	The param should be structure as follows: {SENTIMEN}-{DAY}-{START TIMESTAMP}-{END TIMESTAMP}.
+	{SENTIMENT}: a string with POS, NEG and NEU in any combination (e.g: POSNEG, NEGPOS, POSNEGNEU...)
+	{DAY}: the day to look for, currently either 15 or 16; 0 will look for both days.
+	{START TIMESTAMP}: from what time you want to look or in minutes (e.g: 5, 9, 0...)
+	{END TIMESTAMP}: to what time you want to look or in minutes (e.g: 5, 9, 0...)
+
+	Example of params:
+		POSNEGNEU-O-O-1000 	(this param will return every message).
+		POS-15-20-25		(this param will return positive messages on day 15 from minute 20 to 25)
+		NEUNEG-0-0-30		(this param will return neutral and negative message from both days from the beggining to minute 30)
+
+	Args:
+		param (str): a string with the data to request.
+
+	Returns:
+		json: a JSON with the data requested.
+	"""
 	params = param.split('-')
 	parts = split_3(params[0])
 
