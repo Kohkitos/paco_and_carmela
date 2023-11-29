@@ -35,7 +35,10 @@ def message(param):
 		param (str): a string with the data to request.
 
 	Returns:
-		json: a JSON with the data requested.
+		json: a JSON with the data requested as follows:
+			{message_count: 	int,
+			user_count:			int,
+			messages:			json}
 	"""
 	params = param.split('-')
 	parts = split_3(params[0])
