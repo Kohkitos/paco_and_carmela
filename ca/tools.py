@@ -149,3 +149,18 @@ def transcribe_audio(audio_file):
     res = "\n".join(seg['text'] for seg in transcription)
 
     return res
+
+def translate_to_english(text):
+    """
+    Translate text from Spanish to English using the Google Translate API.
+
+    Parameters:
+    text (str): Text to be translated from Spanish to English.
+
+    Returns:
+    str: Translated text in English.
+    """
+    
+    translator = Translator()
+    translated = translator.translate(text, src='es', dest='en')
+    return translated.text
