@@ -44,7 +44,7 @@ for key, value in day_vid.items():
             # just in case there is a peak at minute 1
             if start_time < 0:
                 start_time = 0
-            clip_extraction('video.mp3'), start_time, end_time, f'clip_{index}')
+            clip_extraction('video.mp3', start_time, end_time, f'clip_{index}')
             texts.append(transcribe_audio(f'clip_{index}.mp4'))
 
         summarizer_es = pipeline("summarization", model="facebook/bart-large-cnn")

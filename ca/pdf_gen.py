@@ -9,7 +9,7 @@ def create_pdf(text, df, title):
         # header for the pdf
         def header(self):
             # logo
-            self.image('../img/logo.png', 170, 8, 25)
+            self.image('./img/logo.png', 170, 8, 25)
             # font
             self.set_font('helvetica', 'B', 20)
             # calculate width of title and position
