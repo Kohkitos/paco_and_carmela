@@ -1,5 +1,6 @@
 # tools library has all the libraries needed for the pipeline
 from tools import *
+from pdf_gen import create_pdf
 
 # database
 cursor = MongoClient(STR_CONN)
@@ -30,7 +31,8 @@ day_df = {15: [high_15, low_15],
           16: [high_16, low_16]}
 
 for key, value in day_vid.items():
-    url = value
+    i = 0
+    vid_download(value)
     for df in day_df[key]:
         texts = []
         for index, row in df.iterrows():
@@ -44,9 +46,33 @@ for key, value in day_vid.items():
                 start_time = 0
             clip_extraction('video.mp3'), start_time, end_time, f'clip_{index}')
             texts.append(transcribe_audio(f'clip_{index}.mp4'))
-            
-        # path of the mp3
-        path = "./video.mp3"
 
-        # delete video.mp3
-        os.remove(path)
+        summarizer_es = pipeline("summarization", model="facebook/bart-large-cnn")
+
+        summ = []
+        # summary of each text transcribed
+        for text in texts:
+            # first, translate to english
+            text = translate_to_english(text)
+            # then, summary
+            resumen_espanol = summarizer_es(text, max_length=100, min_length=40, do_sample=False)
+
+            # finally, append to summary list
+            summ.append(resumen_espanol[0]['summary_text'])
+        
+        # generate pdf report
+        if i == 0:
+            temp = 'high'
+            i+=1
+        else:
+            temp = 'low'
+
+        title = f'{temp}_{key}'
+        create_pdf(summ, df, title)
+
+
+    # path of the mp3
+    path = "./video.mp3"
+
+    # delete video.mp3
+    os.remove(path)
