@@ -59,7 +59,7 @@ Please follow the installation instructions for **whisperx** available at [whisp
 ### Initial Steps
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your_username/your_repository.git
+   git clone https://github.com/Kohkitos/paco_and_carmela.git
    cd your_repository
 1. Create a passwords.py file in the root directory of the project. Inside passwords.py, add your MongoDB connection string:
     ```python
