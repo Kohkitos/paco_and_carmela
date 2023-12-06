@@ -103,39 +103,39 @@ def message_16(param):
             }
     """
 
-	# split params into parts and split sent into a list
-	params = param.split('-')
-	parts = split_3(params[0])
+    # split params into parts and split sent into a list
+    params = param.split('-')
+    parts = split_3(params[0])
 
-	# initialize result dictionary and users
-	users = []
-	result = {}
-	result['count'] = 0
+    # initialize result dictionary and users
+    users = []
+    result = {}
+    result['count'] = 0
 
-	date = 1700123057937759
-	for part in parts:
-		messages = list(db.message.find({'sentiment_analysis': part,
-						'timestamp': { '$gte':  int(params[1]), '$lte': int(params[2])},
-						"unix": {"$gte": date}})
-		)
-		# prepare key names
-		name = f'{part}_messages'
-		count_name = f'{part}_count'
-		# prepare count
-		count = len(messages)
-		# update users
-		for message in messages:
-			if message['commentator_id'] in users:
-				continue
-			users.append(message['commentator_id'])
-		# update result
-		result[name] = messages
-		result[count_name] = count
-		result['count'] += count
+    date = 1700123057937759
+    for part in parts:
+        messages = list(db.message.find({'sentiment_analysis': part,
+                                         'timestamp': {'$gte': int(params[1]), '$lte': int(params[2])},
+                                         "unix": {"$gte": date}})
+                       )
+        # prepare key names
+        name = f'{part}_messages'
+        count_name = f'{part}_count'
+        # prepare count
+        count = len(messages)
+        # update users
+        for message in messages:
+            if message['commentator_id'] in users:
+                continue
+            users.append(message['commentator_id'])
+        # update result
+        result[name] = messages
+        result[count_name] = count
+        result['count'] += count
 
-	# get the user count	
-	result['users'] = len(users)
-	return result
+    # get the user count
+    result['users'] = len(users)
+    return result
 
 def split_3(text):
     """
