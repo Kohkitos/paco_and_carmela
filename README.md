@@ -13,7 +13,6 @@ CARMELA focuses on extracting comments from the live video stream, performing se
 PACO operates by identifying peak comment moments and periods with minimal interaction in the live chat. During these intervals, PACO automatically downloads corresponding video audio clips. It transcribes the audio content and generates concise summaries. These summaries provide a comprehensive overview of the significant portions of the video, highlighting crucial points discussed during high engagement moments and key information during low interaction periods.
 
 ## Workflow
-...
 
 
 1. **CARMELA:**
