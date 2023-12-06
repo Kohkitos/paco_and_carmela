@@ -99,3 +99,28 @@ To address these limitations and enhance the capabilities of PACO and CARMELA, t
 
 - **Re-training Sentiment Analysis AI**: Retraining the sentiment analysis AI model to include a more nuanced understanding of sentiments expressed through emojis in the context of Spanish politics, enhancing its accuracy and contextual intelligence.
 
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+## Acknowledgments
+
+This project acknowledges the following articles and projects for their contributions:
+
+- **WhisperX: Time-Accurate Speech Transcription of Long-Form Audio**
+  - *Authors*: Max Bain, Jaesung Huh, Tengda Han, Andrew Zisserman
+  - *Published in*: INTERSPEECH 2023
+
+- **pysentimiento: A Python Toolkit for Opinion Mining and Social NLP tasks**
+  - *Authors*: Juan Manuel Pérez, Mariela Rajngewerc, Juan Carlos Giudici, et al.
+  - *Year*: 2023
+  - [Paper Link](https://arxiv.org/abs/2106.09462)
+
+- **BART: Denoising Sequence-to-Sequence Pre-training for Natural Language Generation, Translation, and Comprehension**
+  - *Authors*: Mike Lewis, Yinhan Liu, Naman Goyal, et al.
+  - *Published in*: CoRR, 2019
+  - [Paper Link](https://arxiv.org/abs/1910.13461)
+
+
+
+
